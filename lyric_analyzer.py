@@ -12,12 +12,15 @@ class LyricAnalyzer(object):
         '''
         self.lyrics = lyrics
         self.num = num
-        self.cleaned = StopWord(self.lyrics).remove()
 
+
+    def clean(self):
+        return StopWord(self.lyrics).remove()
 
     def top_words(self):
         '''Returns top n words with number of occurences and frequency percentage out of non-stop words.'''
-        words = self.cleaned
+        #words = self.cleaned
+        words = self.clean()
         word_counter = {}
         wlen = len(words)
         for word in words:
