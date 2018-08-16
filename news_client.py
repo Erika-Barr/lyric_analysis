@@ -25,9 +25,10 @@ class NewsClient(object):
         return articles[article_index]
 
     def parse_title_and_url(self):
-        '''Returns a dictionary with the articles title and url.'''
+        '''Returns a list with the articles title and url.'''
         article = self.random_top_article()
-        data = {'title': article['title'], 'url': article['url']}
+        #data = {'title': article['title'], 'url': article['url']}
+        data = [article['title'], article['url']]
         return data
 
 
@@ -40,3 +41,14 @@ info = api.parse_title_and_url()
 
 print(info)
 '''
+output = []
+words = ['apple', 'orange', 'bag']
+#pdb.set_trace()
+for w in words:
+    d = NewsClient(w).get_top_articles()
+    if d['totalResults'] is 0:
+        continue
+    else:
+        output.append(NewsClient(w).parse_title_and_url())
+
+#print(output)

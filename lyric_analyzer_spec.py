@@ -2,7 +2,7 @@ from lyric_analyzer import LyricAnalyzer
 from stop_words import StopWord
 import unittest
 from unittest.mock import MagicMock
-from helper_variables import TOP_THREE_ARTICLES
+from helper_variables import TOP_THREE_WORDS, FORMATTED_TOP_THREE_ARTICLES
 import pdb
 
 class TestLyricAnalyzer(unittest.TestCase):
@@ -18,8 +18,14 @@ class TestLyricAnalyzer(unittest.TestCase):
         lyric_analyzer = LyricAnalyzer('lyrics', 3)
         words=['apple', 'apple', 'apple', 'apple', 'orange', 'orange', 'orange', 'orange', 'bag', 'bag', 'bag', 'nail', 'bed']
         lyric_analyzer.clean = MagicMock(return_value=words)
-        output = TOP_THREE_ARTICLES
+        output = TOP_THREE_WORDS
         self.assertEqual(lyric_analyzer.top_words(), output)
+
+    def test_top_articles(self):
+        lyric_analyzer = LyricAnalyzer('lyrics', 3)
+        top_words={'bag': [5, 0.28], 'run': [4, 0.22], 'pen': [4, 0.22]}
+        lyric_analyzer.top_words = MagicMock(return_value=top_words)
+
 if __name__ == '__main__':
     unittest.main()
 
