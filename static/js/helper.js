@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title> Lyrics </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css" rel="stylesheet" integrity="sha384-awusxf8AUojygHf2+joICySzB780jVvQaVCAt1clU3QsyAitLGul28Qxb2r1e5g+" crossorigin="anonymous">
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-    </head>
-    <body>
-         <div id='chart'> </div>
-         <div id='articles'> </div>
-
-        <script type="text/javascript">
 
             function format_chart(data) {
               var formatted = [] ;
@@ -66,7 +51,6 @@
               Object.keys(words).forEach(w => articles += '<div class ="panel">' + `${w}: occured ${words[w]["occurences"]} times in lyrics. Here is a related article ` + '<div class="panel-heading"> <h3 class="panel-title">' + `<a href=${words[w]["url"]}> ${words[w]["title"]} </a>` + '</h3> </div></div>'  )
               $('#articles').html(articles);
             }
-
             function load_top_words(query) {
                 $.ajax({
                     url: 'articles',
@@ -80,15 +64,4 @@
                     }
                 });
             }
-
-            $(document).ready(function(){
-               //var lyrics = "Bag bag bag bag bag run run run run pen pen pen pen science history grammar bottles cars.";
-               var lyrics = "cheese, cheese, cheese, cheese, gum, gum, gum, gum, honey, honey, honey, honey, honey, glue, blob, flake"
-               load_top_words(lyrics);
-            });
-        </script>
-    </body>
-
-</html>
-
 

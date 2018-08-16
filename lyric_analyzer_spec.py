@@ -16,14 +16,14 @@ class TestLyricAnalyzer(unittest.TestCase):
 
     def test_top_words(self):
         lyric_analyzer = LyricAnalyzer('lyrics', 3)
-        words=['apple', 'apple', 'apple', 'apple', 'orange', 'orange', 'orange', 'orange', 'bag', 'bag', 'bag', 'nail', 'bed']
+        words = ['apple', 'apple', 'apple', 'apple', 'orange', 'orange', 'orange', 'orange', 'bag', 'bag', 'bag', 'nail', 'bed']
         lyric_analyzer.clean = MagicMock(return_value=words)
         output = TOP_THREE_WORDS
         self.assertEqual(lyric_analyzer.top_words(), output)
 
     def test_top_articles(self):
         lyric_analyzer = LyricAnalyzer('lyrics', 3)
-        top_words={'bag': [5, 0.28], 'run': [4, 0.22], 'pen': [4, 0.22]}
+        top_words = TOP_THREE_WORDS
         lyric_analyzer.top_words = MagicMock(return_value=top_words)
 
 if __name__ == '__main__':
