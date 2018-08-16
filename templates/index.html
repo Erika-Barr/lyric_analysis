@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Article generator from your favorite lyrics </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+    </head>
+    <body>
+        Hello World
+        <div id='output'> </div>
+
+        <script type="text/javascript">
+
+            function format(data) {
+              var formatted = [] ;
+              Object.keys(data['data']).forEach(key => formatted.push([key, data.data[key]["percentages"] ]) );
+              return formatted;
+            }
+
+            function build_chart(data) {
+              Highcharts.chart('output', {
+                        chart: {
+                          plotBackgroundColor: null,
+                          plotBorderWidth: 0,
+                          plotShadow: false
+                        },
+                        title: {
+                          text: 'Top Words<br>In Lyrics',
+                          align: 'center',
+                          verticalAlign: 'middle',
+                          y: 40
+                        },
+                        tooltip: {
+                          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                        },
+                        plotOptions: {
+                          pie: {
+                            dataLabels: {
+                              enabled: true,
+                              distance: -50,
+                              style: {
+                                fontWeight: 'bold',
+                                color: 'white'
+                              }
+                            },
+                            startAngle: -90,
+                            endAngle: 90,
+                            center: ['50%', '75%']
+                          }
+                        },
+                        series: [{
+                          type: 'pie',
+                          name: 'Occurences',
+                          innerSize: '50%',
+                          data: format(data)
+                        }]
+              });
+            }
+
+            function load_top_words(query) {
+                $.ajax({
+                    url: 'articles',
+                    data: {'query': query},
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function(data) {
+                        console.log(format(data));
+                        build_chart(data);
+                    }
+                });
+            }
+
+            $(document).ready(function(){
+                  //$('#output').html(load_articles("Bag bag bag bag bag run run run run pen pen pen pen science history grammar bottles cars."));
+               //var lyrics = "Bag bag bag bag bag run run run run pen pen pen pen science history grammar bottles cars.";
+               var lyrics = "cheese, cheese, cheese, cheese, gum, gum, gum, gum, honey, honey, honey, honey, honey, glue, blob, flake"
+               load_top_words(lyrics);
+               //build_chart('test');
+            });
+        </script>
+    </body>
+
+</html>
+
+
