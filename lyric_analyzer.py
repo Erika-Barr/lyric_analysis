@@ -45,13 +45,15 @@ class LyricAnalyzer(object):
         words = self.top_words()
         output = list(words.keys())
         for word in words:
-            d = NewsClient(word).get_top_articles()
-            if d['totalResults'] is 0:
-                continue
-            else:
-                info = NewsClient(word).parse_title_and_url()
-                for i in info:
-                    words[word].append(i)
+            #pdb.set_trace()
+            #articles = NewsClient(word).get_top_articles()
+            #if articles['totalResults'] is 0:
+            #    continue
+            #else:
+            info = NewsClient(word).parse_title_and_url()
+            for i in info:
+                if i is None: continue
+                words[word].append(i)
         data = {}
         for word in words:
             data[word] = dict(zip(keys,words[word]))
@@ -61,6 +63,6 @@ class LyricAnalyzer(object):
 
 
 #print(l_a.top_words())
-#lyr = "Bag bag bag bag bag run run run run pen pen pen pen science history grammar bottles cars."
-#l_a = LyricAnalyzer(lyr, 3)
-#print(l_a.top_articles())
+lyr = "Bag bag bag bag bag run run run run pen pen pen pen science history grammar bottles cars."
+l_a = LyricAnalyzer(lyr, 3)
+print(l_a.top_articles())

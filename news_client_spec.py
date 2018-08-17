@@ -13,7 +13,11 @@ class TestNewsClient(unittest.TestCase):
         thing.method.assert_called_with(3, 4, 5, key='value')
         self.assertEqual(thing.method(3,4,5), 3)
 
-    '''TODO *stub api call and return list of articles'''
+    '''TODO
+    *stub api call and return list of articles
+    *change response for not find an article
+        *add corresponding tests for failure
+    '''
     def get_top_articles(self):
         pass
 

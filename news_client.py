@@ -1,5 +1,6 @@
 from newsapi import NewsApiClient
 import random
+import os
 import pdb
 
 class NewsClient(object):
@@ -10,7 +11,7 @@ class NewsClient(object):
             keyword (str): Word to search news.
 
         '''
-        self.news_api = NewsApiClient(api_key='5bd819d333364b0d93ffa981b3a9e541')
+        self.news_api = NewsApiClient(api_key=os.environ['NEWS_API'])
         self.keyword = keyword
 
     def get_top_articles(self):
@@ -20,19 +21,21 @@ class NewsClient(object):
 
     def random_top_article(self):
         '''Returns a dictionary representing a randomly picked top article.'''
-        articles = self.get_top_articles()['articles']
+        find_articles = self.get_top_articles()
+        if find_articles['totalResults'] is 0: return None
+        articles = find_articles['articles']
         article_index = random.randint(0, len(articles)-1)
         return articles[article_index]
 
     def parse_title_and_url(self):
         '''Returns a list with the articles title and url.'''
         article = self.random_top_article()
-        #data = {'title': article['title'], 'url': article['url']}
+        if article is None: return None
         data = [article['title'], article['url']]
         return data
 
 
-'''Usage
+
 keyword = 'bitcoin'
 
 api = NewsClient(keyword)
@@ -40,15 +43,12 @@ api = NewsClient(keyword)
 info = api.parse_title_and_url()
 
 print(info)
-'''
+'''Usage
 output = []
-words = ['apple', 'orange', 'bag']
-#pdb.set_trace()
+#words = ['jizzi', 'apple', 'orange', 'bag']
+words = ['jizzi', 'orange', 'bag']
 for w in words:
-    d = NewsClient(w).get_top_articles()
-    if d['totalResults'] is 0:
-        continue
-    else:
-        output.append(NewsClient(w).parse_title_and_url())
+    output.append(NewsClient(w).parse_title_and_url())
 
-#print(output)
+print(output)
+'''
