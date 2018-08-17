@@ -14,9 +14,11 @@ class LyricAnalyzer(object):
         self.num = num
 
 
+    #Tested in stop_word_spec
     def clean(self):
         return StopWord(self.lyrics).remove()
 
+    #Tested in current corresponding spec
     def top_words(self):
         '''Returns top n words with number of occurences and frequency percentage out of non-stop words.'''
         words = self.clean()
@@ -35,22 +37,21 @@ class LyricAnalyzer(object):
         top = list(word_counter.items())[0:self.num]
         formatted_output = {}
         for w in top:
-            #formatted_output[w[0]] = {'occurences': w[1], 'percentage': round(w[1]/wlen, 2)}
             formatted_output[w[0]] = [w[1], round(w[1]/wlen, 2)]
         return formatted_output
 
+    #Tested in news_client_spec
+    def get_info(self,word):
+        return NewsClient(word).parse_title_and_url()
+
+    #Not Tested
     def top_articles(self):
         '''Returns a list of formatted dictionaries { word: { occurences, percentage, title, url} }'''
         keys = ['occurences', 'percentages', 'title', 'url']
         words = self.top_words()
         output = list(words.keys())
         for word in words:
-            #pdb.set_trace()
-            #articles = NewsClient(word).get_top_articles()
-            #if articles['totalResults'] is 0:
-            #    continue
-            #else:
-            info = NewsClient(word).parse_title_and_url()
+            info = self.get_info(word)
             for i in info:
                 if i is None: continue
                 words[word].append(i)
@@ -63,6 +64,6 @@ class LyricAnalyzer(object):
 
 
 #print(l_a.top_words())
-lyr = "Bag bag bag bag bag run run run run pen pen pen pen science history grammar bottles cars."
-l_a = LyricAnalyzer(lyr, 3)
-print(l_a.top_articles())
+#lyr = "Bag bag bag bag bag run run run run pen pen pen pen science history grammar bottles cars."
+#l_a = LyricAnalyzer(lyr, 3)
+#print(l_a.top_articles())

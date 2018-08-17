@@ -14,11 +14,13 @@ class NewsClient(object):
         self.news_api = NewsApiClient(api_key=os.environ['NEWS_API'])
         self.keyword = keyword
 
+    #Not Tested
     def get_top_articles(self):
         '''Returns a list of top articles.'''
         top_articles = self.news_api.get_top_headlines(q=self.keyword, language='en')
         return top_articles
 
+    #Tested in current corresponding spec
     def random_top_article(self):
         '''Returns a dictionary representing a randomly picked top article.'''
         find_articles = self.get_top_articles()
@@ -27,6 +29,7 @@ class NewsClient(object):
         article_index = random.randint(0, len(articles)-1)
         return articles[article_index]
 
+    #Tested in current corresponding spec
     def parse_title_and_url(self):
         '''Returns a list with the articles title and url.'''
         article = self.random_top_article()
@@ -36,6 +39,7 @@ class NewsClient(object):
 
 
 
+'''Usage
 keyword = 'bitcoin'
 
 api = NewsClient(keyword)
@@ -43,7 +47,6 @@ api = NewsClient(keyword)
 info = api.parse_title_and_url()
 
 print(info)
-'''Usage
 output = []
 #words = ['jizzi', 'apple', 'orange', 'bag']
 words = ['jizzi', 'orange', 'bag']

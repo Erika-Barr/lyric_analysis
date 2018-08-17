@@ -8,10 +8,12 @@ class StopWord(object):
             text (str): Lyrics from user.'''
         self.text = text
 
+    #Tested in current corresponding spec
     def clean(self):
         '''Returns list of tokenized words.'''
         return word_tokenize(self.text)
 
+    #Tested in current corresponding spec
     def remove(self):
         '''Returns list excluding stop words and non-alphabetical characters.'''
         words = self.clean()
