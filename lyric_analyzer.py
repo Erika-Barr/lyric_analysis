@@ -40,24 +40,27 @@ class LyricAnalyzer(object):
             formatted_output[w[0]] = [w[1], round(w[1]/wlen, 2)]
         return formatted_output
 
-    #Tested in news_client_spec
-    def get_info(self,word):
-        return NewsClient(word).parse_title_and_url()
-
     #Not Tested
+    def get_info(self,words):
+        top = words
+        for word in top:
+            #Tested in news_client_spec
+            info = NewsClient(word).parse_title_and_url()
+            for i in info:
+                if i is None: continue
+                top[word].append(i)
+        return top
+
+    #Tested in current corresponding spec
     def top_articles(self):
         '''Returns a list of formatted dictionaries { word: { occurences, percentage, title, url} }'''
         keys = ['occurences', 'percentages', 'title', 'url']
         words = self.top_words()
-        output = list(words.keys())
-        for word in words:
-            info = self.get_info(word)
-            for i in info:
-                if i is None: continue
-                words[word].append(i)
+        word_info = self.get_info(words)
+        print(word_info)
         data = {}
-        for word in words:
-            data[word] = dict(zip(keys,words[word]))
+        for word in word_info:
+            data[word] = dict(zip(keys,word_info[word]))
         return data
 
 
