@@ -6,7 +6,7 @@ import pdb
 class NewsClient(object):
     '''Returns a top article'''
     def __init__(self, keyword):
-        '''Initialize API instance
+        '''Initialize external API instance.
         Args:
             keyword (str): Word to search news.
 

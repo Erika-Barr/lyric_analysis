@@ -20,7 +20,7 @@ class StopWord(object):
         removed = []
         stop_words = set(stopwords.words('english'))
         for word in words:
-            if word not in stop_words and word.isalpha():
+            if word.lower() not in stop_words and word.isalpha():
                 removed.append(word)
         return removed
 
