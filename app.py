@@ -13,6 +13,14 @@ def hello_world():
 
 @app.route('/articles')
 def articles():
+    '''make a conditional for an arg called recommendation
+        *get lyrics from a call to a lyrics api
+        *call top_articles below
+    if args recommedation present:
+        lyrics = LyricApi(args.get('recommendation'))
+    else:
+        lyrics = request.args.get('query')
+    '''
     lyrics = request.args.get('query')
     api = LyricAnalyzer(lyrics)
     data = api.top_articles()

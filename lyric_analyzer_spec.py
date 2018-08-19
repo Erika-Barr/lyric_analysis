@@ -7,13 +7,6 @@ import pdb
 import copy
 
 class TestLyricAnalyzer(unittest.TestCase):
-    def test_example(self):
-        thing = LyricAnalyzer('lyric', 3)
-        thing.method = MagicMock(return_value=3)
-        thing.method(3, 4, 5, key='value')
-
-        thing.method.assert_called_with(3, 4, 5, key='value')
-        self.assertEqual(thing.method(3,4,5), 3)
 
     def test_top_words(self):
         lyric_analyzer = LyricAnalyzer('lyrics', 3)
@@ -38,12 +31,3 @@ class TestLyricAnalyzer(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-'''May help testing get_info()
-
-        titles_and_urls = TOP_THREE_WORDS_TITLE_AND_URL
-        for i in range(0, len(top)):
-            pdb.set_trace()
-            lyric_analyzer.get_info = MagicMock(return_value=titles_and_urls[i])
-            self.assertEqual(lyric_analyzer.get_info(), titles_and_urls[i])
-'''

@@ -10,6 +10,12 @@
     </head>
     <body>
          <div id='chart'> </div>
+         <div class='container-fluid'>
+             <div id="login" >
+                 <h6>Need song recommendations? No problem!!</h6>
+                 <button id="login-button" class="btn btn-primary" style="margin-bottom: 100 auto">Log in with Spotify</button>
+             </div>
+         </div>
          <div id='articles'> </div>
 
         <script type="text/javascript">
@@ -80,11 +86,75 @@
                     }
                 });
             }
+/*
+           function get_playlist(t) {
+               if (t) {
+                   $.ajax({
+                      url: 'https://api.spotify.com/v1/me/player/recently-played',
+                      headers: {
+                          'Authorization': 'Bearer ' + t
+                      },
+                      success: function(response) {
+                          console.log('playlist');
+                          console.log(response);
+                      }
+                  });
+               }
+            }
+*/
+                   /**
+                     * Obtains parameters from the hash of the URL
+                     * @return Object
+                     */
+                    function getHashParams() {
+                        var hashParams = {};
+                        var e, r = /([^&;=]+)=?([^&;]*)/g,
+                                    q = window.location.hash.substring(1);
+                        while ( e = r.exec(q)) {
+                            hashParams[e[1]] = decodeURIComponent(e[2]);
+                        }
+                        return hashParams;
+                   }
+                   var params = getHashParams();
+                   console.log(params);
+                   var access_token = params.access_token ;
+                   console.log(access_token);
+                   //get_playlist(access_token);
+              if (access_token) {
+                   $.ajax({
+                      url: 'https://api.spotify.com/v1/me/top/tracks',
+                      headers: {
+                          'Authorization': 'Bearer ' + access_token
+                      },
+                      success: function(response) {
+                          console.log('playlist');
+                          console.log(response);
+                          var songs = [];
+                          var tracks = response.items
+                          tracks.forEach(t => songs.push(t.name))
+                          console.log(songs);
+                      }
+                  });
+               }
 
             $(document).ready(function(){
                var lyrics = "Bag bag bag bag bag run run run run pen pen pen pen science history grammar bottles cars.";
                //var lyrics = "cheese, cheese, cheese, cheese, gum, gum, gum, gum, honey, honey, honey, honey, honey, glue, blob, flake"
                load_top_words(lyrics);
+                $('#login-button').click( function() {
+                    var client_id = '7a848f3295c047b08e6e118c2121acbf';
+                    var redirect_uri = 'http://localhost:5000/';
+                    var scope = 'user-read-private user-read-email user-top-read';
+                    var url = 'https://accounts.spotify.com/authorize';
+                    url += '?response_type=token';
+                    url += '&client_id=' + encodeURIComponent(client_id);
+                    url += '&scope=' + encodeURIComponent(scope);
+                    url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
+                    //url += '&state=' + encodeURIComponent(state);
+                    //$(this).attr("href", url);
+                    window.location = url;
+                });
+
             });
         </script>
     </body>

@@ -40,14 +40,18 @@ class LyricAnalyzer(object):
             formatted_output[w[0]] = [w[1], round(w[1]/wlen, 2)]
         return formatted_output
 
+    #Tested in news_client_spec
+    def title_and_url(self, w):
+        return NewsClient(w).parse_title_and_url()
+
     #Not Tested
     def get_info(self,words):
         top = words
         for word in top:
-            #Tested in news_client_spec
-            info = NewsClient(word).parse_title_and_url()
+            #Trouble mocking function in for loop
+            info = self.title_and_url(word)
+            if info is None: continue
             for i in info:
-                if i is None: continue
                 top[word].append(i)
         return top
 
@@ -57,7 +61,6 @@ class LyricAnalyzer(object):
         keys = ['occurences', 'percentages', 'title', 'url']
         words = self.top_words()
         word_info = self.get_info(words)
-        print(word_info)
         data = {}
         for word in word_info:
             data[word] = dict(zip(keys,word_info[word]))
