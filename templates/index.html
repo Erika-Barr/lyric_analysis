@@ -131,7 +131,7 @@
                           console.log(response);
                           var songs = [];
                           var tracks = response.items
-                          tracks.forEach(t => songs.push(t.name))
+                              tracks.forEach(t => songs.push({"name": t.name, "artist": t.artists[0].name}))
                           console.log(songs);
                       }
                   });
