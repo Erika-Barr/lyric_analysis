@@ -1,7 +1,7 @@
             function request_authorization() {
                 $('#login-button').click( function() {
                     var client_id = '7a848f3295c047b08e6e118c2121acbf';
-                    var redirect_uri = 'https://lyric-analyzer.herokuapp.com/'; //'http://localhost:5000/';
+                    var redirect_uri = 'https://lyric-analyzer.herokuapp.com/' //'https://lyric-analyzer.herokuapp.com/'; //'http://localhost:5000/';
                     var scope = 'user-read-private user-read-email user-top-read';
                     var url = 'https://accounts.spotify.com/authorize';
                     url += '?response_type=token';
