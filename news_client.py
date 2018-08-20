@@ -1,4 +1,5 @@
-from newsapi import NewsApiClient
+#from newsapi import NewsApiClient
+import newsapi
 import random
 import os
 import pdb
@@ -11,7 +12,8 @@ class NewsClient(object):
             keyword (str): Word to search news.
 
         '''
-        self.news_api = NewsApiClient(api_key=os.environ['NEWS_API'])
+        #self.news_api = NewsApiClient(api_key=os.environ['NEWS_API'])
+        self.news_api = newsapi.NewsApiClient(api_key=os.environ['NEWS_API'])
         self.keyword = keyword
 
     #Tested in current corresponding spec
