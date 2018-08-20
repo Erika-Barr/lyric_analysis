@@ -3,5 +3,4 @@ behave==1.2.6
 nltk==3.3
 newsapi_python==0.2.3
 newsapi==0.1.1
-swagger_client==1.0.0
 gunicorn==19.7.1
