@@ -1,5 +1,6 @@
 from lyric_analyzer import LyricAnalyzer
 from flask import Flask, jsonify, render_template, request
+import os
 import pdb
 
 app = Flask(__name__)
