@@ -4,4 +4,4 @@ nltk==3.3
 newsapi_python==0.2.3
 newsapi==0.1.1
 gunicorn==19.7.1
-https://github.com/musixmatch/musixmatch-sdk/blob/master/dist/python-client-generated.zip
+musixmatch-sdk/dist/python-client-generated.zip
