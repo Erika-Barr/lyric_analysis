@@ -1,5 +1,7 @@
 from lyric_analyzer import LyricAnalyzer
+from musix_match_client import MusixMatchClient
 from flask import Flask, jsonify, render_template, request
+import json
 import os
 import pdb
 
@@ -22,9 +24,18 @@ def articles():
     else:
         lyrics = request.args.get('query')
     '''
-    lyrics = request.args.get('query')
-    api = LyricAnalyzer(lyrics)
-    data = api.top_articles()
+    #pdb.set_trace()
+    if 'spotify' in request.args:
+        info = json.loads(request.args.get('spotify'))
+        musix_api = MusixMatchClient(info["artist"], info["track"])
+        lyrics = musix_api.get_lyrics()
+        lyric_analyzer_api = LyricAnalyzer(lyrics)
+        data = lyric_analyzer_api.top_articles()
+    if 'query' in request.args:
+        lyrics = request.args.get('query')
+        lyric_analyzer_api = LyricAnalyzer(lyrics)
+        data = lyric_analyzer_api.top_articles()
+
     return jsonify({'data': data})
 
 

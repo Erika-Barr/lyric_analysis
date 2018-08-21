@@ -20,8 +20,9 @@ class MusixMatchClient(object):
         '''Returns lyrics from Musixmatch api'''
         kwargs = {"q_track": self.track, "q_artist": self.artist}
         response = self.external_api.matcher_lyrics_get_get(**kwargs)
-        lyrics = response["message"]["body"]["lyrics"]["lyrics_body"]
+        #lyrics = response["message"]["body"]["lyrics"]["lyrics_body"]
+        lyrics = response.message.body.lyrics.lyrics_body
         return lyrics
 
-#l = MusixMatchClient('XXXTentacia', 'Moonlight')
-#print(l.get_lyrics())
+l = MusixMatchClient('XXXTentacia', 'Moonlight')
+print(l.get_lyrics())

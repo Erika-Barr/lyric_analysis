@@ -1,4 +1,57 @@
-            function request_authorization() {
+           function copy_format_chart(data) {
+              var formatted = [] ;
+              Object.keys(data['data']).forEach(key => formatted.push([key, data.data[key]["percentages"] ]) );
+              return formatted;
+            }
+
+            function copy_build_chart(data) {
+              Highcharts.chart('chart', {
+                        chart: {
+                          plotBackgroundColor: null,
+                          plotBorderWidth: 0,
+                          plotShadow: false
+                        },
+                        title: {
+                          text: 'Top Words<br>In Lyrics',
+                          align: 'center',
+                          verticalAlign: 'middle',
+                          y: 40
+                        },
+                        tooltip: {
+                          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                        },
+                        plotOptions: {
+                          pie: {
+                            dataLabels: {
+                              enabled: true,
+                              distance: -50,
+                              style: {
+                                fontWeight: 'bold',
+                                color: 'white'
+                              }
+                            },
+                            startAngle: -90,
+                            endAngle: 90,
+                            center: ['50%', '75%']
+                          }
+                        },
+                        series: [{
+                          type: 'pie',
+                          name: 'Occurences',
+                          innerSize: '50%',
+                          data: copy_format_chart(data)
+                        }]
+              });
+            }
+
+            function copy_build_articles(data) {
+              words = data.data
+              var articles = '<div>';
+              Object.keys(words).forEach(w => articles += '<div class ="panel">' + `${w}: occured ${words[w]["occurences"]} times in lyrics. Here is a related article ` + '<div class="panel-heading"> <h3 class="panel-title">' + `<a href=${words[w]["url"]}> ${words[w]["title"]} </a>` + '</h3> </div></div>'  )
+              $('#articles').html(articles);
+            }
+
+function request_authorization() {
                 $('#login-button').click( function() {
                     var client_id = '7a848f3295c047b08e6e118c2121acbf';
                     var redirect_uri = 'http://localhost:5000/'; //'https://lyric-analyzer.herokuapp.com/'
@@ -39,6 +92,59 @@
                     return true;
                 }
             }
+            function copy_load_top_words(spotify) {
+                $.ajax({
+                    url: 'articles',
+                    data: {'spotify': JSON.stringify(spotify)},
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function(data) {
+                        //console.log(format_chart(data));
+                        copy_build_chart(data);
+                        copy_build_articles(data);
+                        console.log('Dope now hook up charts');
+                        console.log(data);
+                    }
+                });
+            }
+
+            function build_billboard(data) {
+                var songs = data;
+                var billboard = `<table class="table table-striped table-sm table-bordered table-dark" style="min-width: 310px; height: 100px; max-width: 300px; margin: 0 auto">
+                                   <thead class="thead-light">
+                                     <tr class="rounded">
+                                      <th scope="col">#</th>
+                                      <th scope="col">Artist</th>
+                                      <th scope="col">Track</th>
+                                    </tr>
+                                   </thead>
+                                   <tbody>`
+
+                songs.slice(0,10).forEach((s,ind) => billboard += `<tr class='clickable-row'>
+                                                       <th scope="row">${ind+1}</th>
+                                                       <td>${s.artist}</td>
+                                                       <td>${s.name}</td>
+                                                       </tr>`)
+                billboard += `</tbody> </table>`
+                $('#billboard').html(billboard)
+                //songs.forEach(s => billboard += `<div> artist ${s.artist} : song ${s.name} </div>`)
+               $(".clickable-row").click(function() {
+                  var out = [];
+                  var $row = $(this).closest("tr"), // Finds the closest row <tr>
+                   $tds = $row.find("td"); // Finds all children <td> elements
+                  $.each($tds, function() {  // Visits every single <td> element
+                    out.push($(this).text()) // Get the text within the <td>
+                  });
+                  var info;
+                  out.map(function() {
+                    info =  {"artist": out[0], "track": out[1]}
+                    return
+                  })
+                  console.log(out);
+                  console.log(info);
+                  copy_load_top_words(info);
+               });
+            }
 
             function call_spotify(a_t) {
                 $.ajax({
@@ -51,8 +157,9 @@
                        console.log(response);
                        var songs = [];
                        var tracks = response.items
-                           tracks.forEach(t => songs.push({"name": t.name, "artist": t.artists[0].name}))
+                       tracks.forEach(t => songs.push({"name": t.name, "artist": t.artists[0].name}))
                        console.log(songs);
+                       build_billboard(songs);
                    }
                 });
             }
@@ -64,3 +171,14 @@
                 if (verified === true) call_spotify(access_token);
             }
 
+               //$(".clickable-row").click(function() {
+                  //var out = [];
+                  //var $row = $(this).closest("tr"), // Finds the closest row <tr>
+                  // $tds = $row.find("td"); // Finds all children <td> elements
+                  //$.each($tds, function() {    // Visits every single <td> element
+                  //  // Get the text within the <td>
+                  //  out.push($(this).text())
+                  //});
+                  //console.log(out);
+                  //alert("row clicked");
+               //});
