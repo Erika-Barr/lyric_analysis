@@ -59,10 +59,9 @@ Helpers ->  build articles | builds chart
 
 /*
 ===========================================================================================
-Spotify Component
+Ajax to Server-side lyric analyzer
 ===========================================================================================
 */
-
             function load_top_words(lyrics, key) {
                 var data;
                 data = (key === "spotify" ? {"spotify": JSON.stringify(lyrics)} : {"query": lyrics}) ;
@@ -80,6 +79,11 @@ Spotify Component
                     }
                 });
             }
+/*
+===========================================================================================
+Spotify Component
+===========================================================================================
+*/
 
 function request_authorization() {
                 $('#login-button').click( function() {
@@ -192,18 +196,10 @@ User input Component
 ===========================================================================================
 */
 
-/*
-            function load_top_words(query) {
-                $.ajax({
-                    url: 'articles',
-                    data: {'query': query},
-                    dataType: 'json',
-                    type: 'GET',
-                    success: function(data) {
-                        //console.log(format_chart(data));
-                        build_chart(data);
-                        build_articles(data);
-                    }
-                });
-            }
-*/
+function user_input() {
+    $('#user-input').click(function() {
+       var lyrics = $('#query').val();
+       load_top_words(lyrics, "query")
+    });
+}
+
