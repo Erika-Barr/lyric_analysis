@@ -12,6 +12,7 @@
     #   - dist/**/*.js
     #
     src_files:
+      - "src/test.js"
 
     # stylesheets
     #
@@ -61,7 +62,7 @@
     #
     # src_dir: public
     #
-    src_dir:
+    src_dir: "static"
 
     # spec_dir
     #
