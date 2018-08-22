@@ -20,12 +20,16 @@
                  <div id='billboard' class='col-lg-3'> </div>
              </div>
          </div>
+         <div class='container'>
+             <input type='text' id='query' placeholder='Type some lyrics'>
+             <button id='user-input' class="btn btn-info"> Submit </button>
+         </div>
          <div id='articles' class='container'> </div>
 
          <script type="text/javascript">
             $(document).ready(function(){
                var lyrics = "Bag bag bag bag bag run run run run pen pen pen pen science history grammar bottles cars.";
-               load_top_words(lyrics);
+               load_top_words(lyrics, "query");
                spotify_implicit_grant_flow();
             });
 

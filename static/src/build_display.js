@@ -63,6 +63,24 @@ Spotify Component
 ===========================================================================================
 */
 
+            function load_top_words(lyrics, key) {
+                var data;
+                data = (key === "spotify" ? {"spotify": JSON.stringify(lyrics)} : {"query": lyrics}) ;
+                $.ajax({
+                    url: 'articles',
+                    data: data,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function(data) {
+                        //console.log(format_chart(data));
+                        build_chart(data);
+                        build_articles(data);
+                        console.log('Dope now hook up charts');
+                        console.log(data);
+                    }
+                });
+            }
+
 function request_authorization() {
                 $('#login-button').click( function() {
                     var client_id = '7a848f3295c047b08e6e118c2121acbf';
@@ -104,21 +122,6 @@ function request_authorization() {
                     return true;
                 }
             }
-            function spotify_load_top_words(spotify) {
-                $.ajax({
-                    url: 'articles',
-                    data: {'spotify': JSON.stringify(spotify)},
-                    dataType: 'json',
-                    type: 'GET',
-                    success: function(data) {
-                        //console.log(format_chart(data));
-                        build_chart(data);
-                        build_articles(data);
-                        console.log('Dope now hook up charts');
-                        console.log(data);
-                    }
-                });
-            }
 
             function build_billboard(data) {
                 var songs = data;
@@ -154,7 +157,7 @@ function request_authorization() {
                   })
                   console.log(out);
                   console.log(info);
-                  spotify_load_top_words(info);
+                  load_top_words(info, "spotify");
                });
             }
 
@@ -189,6 +192,7 @@ User input Component
 ===========================================================================================
 */
 
+/*
             function load_top_words(query) {
                 $.ajax({
                     url: 'articles',
@@ -202,3 +206,4 @@ User input Component
                     }
                 });
             }
+*/
