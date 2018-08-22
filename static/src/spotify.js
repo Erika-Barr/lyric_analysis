@@ -1,10 +1,16 @@
-           function copy_format_chart(data) {
+/*
+===========================================================================================
+Helpers ->  build articles | builds chart
+===========================================================================================
+*/
+
+           function format_chart(data) {
               var formatted = [] ;
               Object.keys(data['data']).forEach(key => formatted.push([key, data.data[key]["percentages"] ]) );
               return formatted;
             }
 
-            function copy_build_chart(data) {
+            function build_chart(data) {
               Highcharts.chart('chart', {
                         chart: {
                           plotBackgroundColor: null,
@@ -39,17 +45,23 @@
                           type: 'pie',
                           name: 'Occurences',
                           innerSize: '50%',
-                          data: copy_format_chart(data)
+                          data: format_chart(data)
                         }]
               });
             }
 
-            function copy_build_articles(data) {
+            function build_articles(data) {
               words = data.data
               var articles = '<div>';
               Object.keys(words).forEach(w => articles += '<div class ="panel">' + `${w}: occured ${words[w]["occurences"]} times in lyrics. Here is a related article ` + '<div class="panel-heading"> <h3 class="panel-title">' + `<a href=${words[w]["url"]}> ${words[w]["title"]} </a>` + '</h3> </div></div>'  )
               $('#articles').html(articles);
             }
+
+/*
+===========================================================================================
+Spotify Component
+===========================================================================================
+*/
 
 function request_authorization() {
                 $('#login-button').click( function() {
@@ -92,7 +104,7 @@ function request_authorization() {
                     return true;
                 }
             }
-            function copy_load_top_words(spotify) {
+            function spotify_load_top_words(spotify) {
                 $.ajax({
                     url: 'articles',
                     data: {'spotify': JSON.stringify(spotify)},
@@ -100,8 +112,8 @@ function request_authorization() {
                     type: 'GET',
                     success: function(data) {
                         //console.log(format_chart(data));
-                        copy_build_chart(data);
-                        copy_build_articles(data);
+                        build_chart(data);
+                        build_articles(data);
                         console.log('Dope now hook up charts');
                         console.log(data);
                     }
@@ -142,7 +154,7 @@ function request_authorization() {
                   })
                   console.log(out);
                   console.log(info);
-                  copy_load_top_words(info);
+                  spotify_load_top_words(info);
                });
             }
 
@@ -171,14 +183,22 @@ function request_authorization() {
                 if (verified === true) call_spotify(access_token);
             }
 
-               //$(".clickable-row").click(function() {
-                  //var out = [];
-                  //var $row = $(this).closest("tr"), // Finds the closest row <tr>
-                  // $tds = $row.find("td"); // Finds all children <td> elements
-                  //$.each($tds, function() {    // Visits every single <td> element
-                  //  // Get the text within the <td>
-                  //  out.push($(this).text())
-                  //});
-                  //console.log(out);
-                  //alert("row clicked");
-               //});
+/*
+===========================================================================================
+User input Component
+===========================================================================================
+*/
+
+            function load_top_words(query) {
+                $.ajax({
+                    url: 'articles',
+                    data: {'query': query},
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function(data) {
+                        //console.log(format_chart(data));
+                        build_chart(data);
+                        build_articles(data);
+                    }
+                });
+            }
