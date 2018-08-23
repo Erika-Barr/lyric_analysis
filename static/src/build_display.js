@@ -53,7 +53,7 @@ Helpers ->  build articles | builds chart
             function build_articles(data) {
               words = data.data
               var articles = '<div>';
-              Object.keys(words).forEach(w => articles += '<div class ="panel">' + `${w}: occured ${words[w]["occurences"]} times in lyrics. Here is a related article ` + '<div class="panel-heading"> <h3 class="panel-title">' + `<a href=${words[w]["url"]}> ${words[w]["title"]} </a>` + '</h3> </div></div>'  )
+              Object.keys(words).forEach(w => articles += '<div class ="panel">' + `${w}: occured ${words[w]["occurences"]} times in lyrics. Here is a related article ` + '<div class="panel-heading"> <h6 class="panel-title">' + `<a href=${words[w]["url"]}> ${words[w]["title"]} </a>` + '</h3> </div></div>'  )
               $('#articles').html(articles);
             }
 
@@ -179,6 +179,7 @@ function request_authorization() {
                        tracks.forEach(t => songs.push({"name": t.name, "artist": t.artists[0].name}))
                        console.log(songs);
                        build_billboard(songs);
+                       $('#login').hide()
                    }
                 });
             }

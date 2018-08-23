@@ -12,19 +12,19 @@
     <body>
          <div class='container'>
              <div class='row'>
-                 <div id='chart' class='col-lg-7'> </div>
-                 <div id="login" class='col-lg-2'>
-                     <h6>Need song recommendations? No problem!!</h6>
-                     <button id="login-button" class="btn btn-primary">Log in with Spotify</button>
+                 <div id='chart' class='col-lg-7' style="min-height: 400px; margin: 0 auto;"> </div>
+                 <div id="login" class='col-lg-2 pt-5 mt-5'>
+                     <h6 class='pt-5'>Need song recommendations? No problem!!</h6>
+                     <button id="login-button" class="btn btn-primary mt-2" >Log in with Spotify</button>
                  </div>
                  <div id='billboard' class='col-lg-3'> </div>
              </div>
+             <div class='mb-5'>
+                 <input type='text' id='query' placeholder='Type some lyrics'>
+                 <button id='user-input' class="btn btn-info"> Submit </button>
+             </div>
          </div>
-         <div class='container'>
-             <input type='text' id='query' placeholder='Type some lyrics'>
-             <button id='user-input' class="btn btn-info"> Submit </button>
-         </div>
-         <div id='articles' class='container'> </div>
+         <div id='articles' class='container-fluid mt-5'> </div>
 
          <script type="text/javascript">
             $(document).ready(function(){
@@ -32,6 +32,7 @@
                //load_top_words(lyrics, "query");
                spotify_implicit_grant_flow();
                user_input();
+                    load_top_words({"artist": "Glass Animals", "track": "Pork Soda"}, "spotify")
             });
 
 
